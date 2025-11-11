@@ -8,6 +8,13 @@ REST API для управления инцидентами на базе FastAP
 # Клонировать репозиторий
 git clone https://github.com/aleks-444/incident-service.git
 cd incident-service
+# Создать файл в корне проекта (не в папке app) с переменными окружения
+cp .env.example .env
+(содержимое:
+DATABASE_URL=postgresql+asyncpg://user:password@db:5432/incident_db
+SECRET_KEY=my-secret-key
+DEBUG=True
+)
 
 # Запустить сервисы
 docker compose up --build -d

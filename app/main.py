@@ -2,11 +2,22 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from app.database import engine, Base
 from app.routers import router
+from app.migrations import run_migrations
+
+
+async def create_tables():
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    Base.metadata.create_all(bind=engine)
+    await create_tables()
+
+    await run_migrations()
+
     yield
+
 
 app = FastAPI(
     title="Incident API",
@@ -16,6 +27,7 @@ app = FastAPI(
 
 app.include_router(router, prefix="/incidents", tags=["incidents"])
 
+
 @app.get("/")
-def read_root():
+async def read_root():
     return {"message": "Incident API is running"}
