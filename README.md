@@ -15,11 +15,11 @@ DATABASE_URL=postgresql+asyncpg://user:password@db:5432/incident_db
 SECRET_KEY=my-secret-key
 DEBUG=True
 )
-
+# Перейти в папку проекта
+cd incident-service
 # Запустить сервисы
 docker compose up --build -d
 
-# Приложение доступно на http://localhost:8000
 ```
 
 ## Документация API
